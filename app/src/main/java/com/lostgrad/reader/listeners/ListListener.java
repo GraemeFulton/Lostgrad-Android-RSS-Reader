@@ -6,6 +6,7 @@ import android.net.Uri;
 import android.view.View;
 import android.widget.AdapterView;
 
+import com.lostgrad.reader.app.DisplayWebViewActivity;
 import com.lostgrad.reader.data.RssItem;
 
 import java.util.List;
@@ -32,9 +33,16 @@ public class ListListener implements AdapterView.OnItemClickListener {
      */
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int pos, long l) {
-        Intent i = new Intent(Intent.ACTION_VIEW);
-        i.setData(Uri.parse(listItems.get(pos).getLink()));
 
-        activity.startActivity(i);
+        //launch default web browser
+      //  Intent launchBrowser = new Intent(Intent.ACTION_VIEW);
+      //  launchBrowser.setData(Uri.parse(listItems.get(pos).getLink()));
+
+        //launch web view
+        Intent launchWebView = new Intent(view.getContext(), DisplayWebViewActivity.class);
+        launchWebView.setData(Uri.parse(listItems.get(pos).getLink()));
+
+
+        activity.startActivity(launchWebView);
     }
 }
