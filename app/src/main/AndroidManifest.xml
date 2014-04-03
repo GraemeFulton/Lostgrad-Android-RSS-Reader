@@ -3,28 +3,36 @@
     package="com.lostgrad.reader.app" >
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
 
     <application
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
-        android:label="@string/app_name"
+        android:label="Lostgrad"
         android:theme="@style/AppTheme" >
         <activity
-            android:name="com.lostgrad.reader.app.MainActivity"
-            android:label="@string/app_name" >
+            android:name=".RssListView"
+            android:label="Lostgrad" >
+
+        </activity>
+        <activity
+            android:name="com.lostgrad.reader.app.DisplayWebViewActivity"
+            android:label="Lostgrad Browser"
+            android:parentActivityName=".RssListView" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.lostgrad.reader.app.MainActivity" />
+        </activity>
+        <activity
+            android:name="com.lostgrad.reader.app.SplashScreen"
+            android:label="Lostgrad" >
+
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-        </activity>
-        <activity
-            android:name="com.lostgrad.reader.app.DisplayWebViewActivity"
-            android:label="@string/title_activity_display_web_view"
-            android:parentActivityName="com.lostgrad.reader.app.MainActivity" >
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.lostgrad.reader.app.MainActivity" />
+
         </activity>
     </application>
 

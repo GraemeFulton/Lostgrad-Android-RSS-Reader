@@ -6,5 +6,6 @@
     <string name="action_settings">Settings</string>
     <string name="title_activity_display_web_page">DisplayWebPageActivity</string>
     <string name="title_activity_display_web_view">DisplayWebViewActivity</string>
+    <string name="title_activity_splash_screen">SplashScreen</string>
 
 </resources>

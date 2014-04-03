@@ -1,6 +1,10 @@
 package com.lostgrad.reader.app;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.Context;
+import android.content.DialogInterface;
+import android.net.ConnectivityManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
@@ -13,36 +17,50 @@ import com.lostgrad.reader.util.RssReader;
 
 import java.util.List;
 
-public class MainActivity extends Activity {
-
-
-    /**
-     * Update: Downloading RSS data in an async task
-     *
-     * Create the main application view
-     * @param savedInstanceState
-     */
+public class SplashScreen extends Activity {
 
     // A reference to the local object
-    private MainActivity local;
+    private SplashScreen local;
 
-
-    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //set the view
-        setContentView(R.layout.activity_main);
 
-        // Set reference to this activity
-        local = this;
+        setContentView(R.layout.activity_splash_screen);
 
-        GetRSSDataTask task = new GetRSSDataTask();
+        ConnectivityManager conMgr = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        if (conMgr.getActiveNetworkInfo() == null) {
+            // No connectivity - Show alert
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setMessage(
+                    "No internet connection.")
+                    .setTitle("Error :(")
+                    .setCancelable(false)
+                    .setPositiveButton("Exit",
+                            new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog,
+                                                    int id) {
+                                    finish();
+                                }
+                            });
 
-        // Start download RSS task
-        task.execute("http://lostgrad.com/graduate-job/feed/?profession=computing-jobs");
+            AlertDialog alert = builder.create();
+            alert.show();
 
-        // Debug the thread name
-        Log.d("RSS Reader", Thread.currentThread().getName());
+        } else {
+            // Connected - Start parsing
+            // Set reference to this activity
+            local = this;
+
+            GetRSSDataTask task = new GetRSSDataTask();
+
+            // Start download RSS task
+            task.execute("http://lostgrad.com/graduate-job/feed/?profession=computing-jobs");
+
+            // Debug the thread name
+            Log.d("RSS Reader", Thread.currentThread().getName());
+
+        }
 
     }
 
@@ -69,6 +87,8 @@ public class MainActivity extends Activity {
 
         @Override
         protected void onPostExecute(List<RssItem> result) {
+
+            setContentView(R.layout.activity_rss_list_view);
 
             // Get a ListView from main view
             ListView items = (ListView) findViewById(R.id.listMainView);

@@ -1,12 +1,12 @@
 package com.lostgrad.reader.app;
 
+import android.app.ProgressDialog;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
-import android.widget.Toast;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -23,7 +23,6 @@ public class DisplayWebViewActivity extends ActionBarActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_display_web_view);
@@ -46,7 +45,7 @@ public class DisplayWebViewActivity extends ActionBarActivity {
             }
             @Override
             public void onPageFinished(WebView view, String url) {
-                Toast.makeText(getApplicationContext(), "Done!", Toast.LENGTH_SHORT).show();
+               // Toast.makeText(getApplicationContext(), "Done!", Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -67,6 +66,22 @@ public class DisplayWebViewActivity extends ActionBarActivity {
         {
             this.url = urlPassed;
         }
+
+
+        /**
+         * override preexecute to show loading animation
+         */
+        ProgressDialog progressDialog;
+        //declare other objects as per your need
+        @Override
+        protected void onPreExecute()
+        {
+            progressDialog= ProgressDialog.show(DisplayWebViewActivity.this, "Loading", "Fetching job details", true);
+
+            //do initialization of required objects objects here
+        };
+
+
 
         String table = null;
 
@@ -90,6 +105,7 @@ public class DisplayWebViewActivity extends ActionBarActivity {
             String extraStyles=this.buildAdditionalStyles();
 
             localWebView.loadData(extraStyles+table, "text/html", "UTF-8");
+            progressDialog.dismiss();
 
         }
 
