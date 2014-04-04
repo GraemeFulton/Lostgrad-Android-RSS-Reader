@@ -13,6 +13,7 @@ import android.widget.ListView;
 
 import com.lostgrad.reader.data.RssItem;
 import com.lostgrad.reader.listeners.ListListener;
+import com.lostgrad.reader.util.AlternateRowAdapter;
 import com.lostgrad.reader.util.RssReader;
 
 import java.util.List;
@@ -94,7 +95,7 @@ public class SplashScreen extends Activity {
             ListView items = (ListView) findViewById(R.id.listMainView);
 
             // Create a list adapter
-            ArrayAdapter<RssItem> adapter = new ArrayAdapter<RssItem>(local,android.R.layout.simple_list_item_1, result);
+            ArrayAdapter<RssItem> adapter = new AlternateRowAdapter(local,android.R.layout.simple_list_item_1, result);
             // Set list adapter for the ListView
             items.setAdapter(adapter);
 

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="CustomAlertDialogStyle">
+        <item name="android:bottomBright">@color/lg_green</item>
+        <item name="android:bottomDark">@color/lg_green</item>
+        <item name="android:bottomMedium">@color/lg_green</item>
+        <item name="android:centerBright">@color/lg_green</item>
+        <item name="android:centerDark">@color/lg_green</item>
+        <item name="android:centerMedium">@color/lg_green</item>
+        <item name="android:fullBright">@color/lg_green</item>
+        <item name="android:fullDark">@color/lg_green</item>
+        <item name="android:topBright">@color/lg_green</item>
+        <item name="android:topDark">@color/lg_green</item>
+        <item name="android:minWidth">@dimen/activity_horizontal_margin</item>
+    </style>
+
+    <style name="MyTheme" parent="@android:style/Theme.Dialog">
+        <item name="android:alertDialogStyle">@style/CustomAlertDialogStyle</item>
+        <item name="android:textColorPrimary">#000000</item>
+    </style>
+
+
+    <color name="lg_green">#1ABC9C</color>
+</resources>

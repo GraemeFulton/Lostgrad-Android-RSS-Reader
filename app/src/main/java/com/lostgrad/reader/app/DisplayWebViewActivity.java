@@ -1,5 +1,6 @@
 package com.lostgrad.reader.app;
 
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.net.Uri;
 import android.os.AsyncTask;
@@ -34,6 +35,7 @@ public class DisplayWebViewActivity extends ActionBarActivity {
 
         localWebView = (WebView) findViewById(R.id.webView);
         localWebView.getSettings().setJavaScriptEnabled(true);
+        localWebView.setBackgroundColor(222);
 
         /**
          * Inserted this to prevent browser loading
@@ -72,11 +74,17 @@ public class DisplayWebViewActivity extends ActionBarActivity {
          * override preexecute to show loading animation
          */
         ProgressDialog progressDialog;
+
+
         //declare other objects as per your need
         @Override
         protected void onPreExecute()
         {
-            progressDialog= ProgressDialog.show(DisplayWebViewActivity.this, "Loading", "Fetching job details", true);
+            progressDialog=new ProgressDialog(DisplayWebViewActivity.this, AlertDialog.THEME_HOLO_DARK);
+            progressDialog.setTitle("Loading");
+            progressDialog.setMessage("Fetching job details");
+            progressDialog.show();
+            progressDialog.setContentView(R.layout.custom_loading_dialog);
 
             //do initialization of required objects objects here
         };
@@ -89,12 +97,12 @@ public class DisplayWebViewActivity extends ActionBarActivity {
         protected String doInBackground(Void... arg0) {
 
             try {
-                doc = Jsoup.connect(this.url).get();
+                doc = Jsoup.connect(this.url).timeout(5000).get();
                 return table=this.getWebsiteData();
 
             } catch (IOException e) {
-                table = "Error:" + e;
-                e.printStackTrace();
+                table = "Error: Sorry, you're connection is a bit slow.";
+                //e.printStackTrace();
             }
             return table;
         }
@@ -133,7 +141,7 @@ public class DisplayWebViewActivity extends ActionBarActivity {
          */
         private String buildAdditionalStyles(){
 
-            String lgStyles= "<style>.single_datagrid{background:#52C1AE;padding:10px;} table td{border: 1px solid #16A085; color:#fff;} .pop-out-tbl{margin-bottom:15px;} .btn{color:#fff; background-color:#47a447; border-color: #398439; padding:8px;border-radius:7px;} #single_post_image{display:block;margin-left:auto;margin-right:auto;max-width:100%;}</style>";
+            String lgStyles= "<style>a{text-decoration:none; color:#222;}.single_datagrid{background:#fff;padding:10px;border:3px solid #ccc; margin:0px;} table{border-collapse:collapse;}table td{border: 1px solid #ccc; padding:3px; color:#222;} .pop-out-tbl{margin-bottom:15px;} .btn{color:#fff; background-color:#47a447; border-color: #398439; padding:8px;border-radius:7px;} #single_post_image{display:block;margin-left:auto;margin-right:auto;max-width:100%;margin-bottom:5px;}</style>";
 
             return lgStyles;
 
