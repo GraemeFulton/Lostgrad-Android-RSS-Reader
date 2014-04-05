@@ -27,9 +27,10 @@ public class AlternateRowAdapter extends ArrayAdapter<RssItem>{
         View view =super.getView(position, convertView, parent);
 
         TextView textView=(TextView) view.findViewById(android.R.id.text1);
-
+        //parent.findViewById(R.id.)
             /*YOUR CHOICE OF COLOR*/
-        textView.setTextColor(Color.parseColor("#222222"));
+        textView.setTextColor(Color.parseColor("#333333"));
+        textView.setTextSize(14);
 
         if(position%2==0)
         {

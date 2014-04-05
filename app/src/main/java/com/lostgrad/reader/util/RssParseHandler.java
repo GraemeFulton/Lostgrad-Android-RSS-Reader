@@ -1,12 +1,14 @@
 package com.lostgrad.reader.util;
 
 
+import com.lostgrad.reader.data.RssItem;
+
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
+
 import java.util.ArrayList;
 import java.util.List;
-import com.lostgrad.reader.data.RssItem;
 
 
 /**
@@ -25,6 +27,9 @@ public class RssParseHandler extends DefaultHandler {
 
     //parsing link indicator
     private boolean parsingLink;
+
+    //parsing image indicator
+    private boolean parsingImage;
 
     public RssParseHandler() {
         rssItems = new ArrayList();
@@ -46,6 +51,8 @@ public class RssParseHandler extends DefaultHandler {
             parsingTitle=true;
         }else if ("link".equals(qName)){
             parsingLink=true;
+        }else if ("image".equals(qName)){
+            parsingImage=true;
         }
     }
 
@@ -60,6 +67,8 @@ public class RssParseHandler extends DefaultHandler {
               parsingTitle=false;
         }else if("link".equals(qName)){
               parsingLink=false;
+        }else if("image".equals(qName)){
+            parsingImage=false;
         }
     }
 
@@ -76,6 +85,11 @@ public class RssParseHandler extends DefaultHandler {
             if(currentItem!=null){
                 currentItem.setLink(new String(ch,start,length));
                 parsingLink=false;
+            }
+        }else if (parsingImage){
+            if(currentItem!=null){
+                currentItem.setImageUrl(new String(ch,start,length));
+                parsingImage=false;
             }
         }
     }

@@ -4,24 +4,18 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.net.ConnectivityManager;
-import android.os.AsyncTask;
 import android.os.Bundle;
-import android.util.Log;
-import android.widget.ArrayAdapter;
-import android.widget.ListView;
-
-import com.lostgrad.reader.data.RssItem;
-import com.lostgrad.reader.listeners.ListListener;
-import com.lostgrad.reader.util.AlternateRowAdapter;
-import com.lostgrad.reader.util.RssReader;
-
-import java.util.List;
+import android.os.Handler;
 
 public class SplashScreen extends Activity {
 
     // A reference to the local object
     private SplashScreen local;
+    private Handler handler = new Handler();
+    private Runnable runnable;
+
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -49,59 +43,27 @@ public class SplashScreen extends Activity {
             alert.show();
 
         } else {
-            // Connected - Start parsing
-            // Set reference to this activity
-            local = this;
 
-            GetRSSDataTask task = new GetRSSDataTask();
+            /*
+            *It is possible to immediately start the activity using this:
+            * this.startActivity(new Intent(this, SelectOptionsActivity.class));
+            * However, we will use a delay, to make use of the splash screen:
+            * (http://stackoverflow.com/questions/7965494/how-to-put-some-delay-in-calling-an-activity-from-another-activity)
+            */
 
-            // Start download RSS task
-            task.execute("http://lostgrad.com/graduate-job/feed/?profession=computing-jobs");
+            handler.postDelayed(runnable = new Runnable() {
+                @Override
+                public void run() {
 
-            // Debug the thread name
-            Log.d("RSS Reader", Thread.currentThread().getName());
+                    Intent i = new Intent(SplashScreen.this, SelectOptionsActivity.class);
+                    //launch select options page
+                    startActivity(i);
+                    finish();
+                }
+            }, 2000);
 
         }
 
-    }
-
-    private class GetRSSDataTask extends AsyncTask<String, Void, List<RssItem> > {
-        @Override
-        protected List<RssItem> doInBackground(String... urls) {
-
-            // Debug the task thread name
-            Log.d("RSS Reader", Thread.currentThread().getName());
-
-            try {
-                // Create RSS reader
-                RssReader rssReader = new RssReader(urls[0]);
-
-                // Parse RSS, get items
-                return rssReader.getItems();
-
-            } catch (Exception e) {
-                Log.e("RSS Reader", e.getMessage());
-            }
-
-            return null;
-        }
-
-        @Override
-        protected void onPostExecute(List<RssItem> result) {
-
-            setContentView(R.layout.activity_rss_list_view);
-
-            // Get a ListView from main view
-            ListView items = (ListView) findViewById(R.id.listMainView);
-
-            // Create a list adapter
-            ArrayAdapter<RssItem> adapter = new AlternateRowAdapter(local,android.R.layout.simple_list_item_1, result);
-            // Set list adapter for the ListView
-            items.setAdapter(adapter);
-
-            // Set list view item click listener
-            items.setOnItemClickListener(new ListListener(result, local));
-        }
     }
 
 }

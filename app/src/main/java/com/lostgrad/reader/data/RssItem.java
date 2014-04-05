@@ -7,6 +7,7 @@ public class RssItem {
 
     private String title;
     private String link;
+    private String imageUrl;
 
     public String getTitle() {
         return title;
@@ -22,6 +23,15 @@ public class RssItem {
 
     public void setLink(String link) {
         this.link = link;
+    }
+
+
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
     }
 
     @Override

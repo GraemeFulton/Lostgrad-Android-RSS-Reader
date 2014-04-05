@@ -5,12 +5,9 @@
     android:orientation="vertical" >
 
     <ListView
-
         android:id="@+id/listMainView"
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:choiceMode="none"
-        android:clickable="false">
+        android:layout_height="wrap_content" >
     </ListView>
 
 </LinearLayout>

@@ -81,11 +81,9 @@ public class DisplayWebViewActivity extends ActionBarActivity {
         protected void onPreExecute()
         {
             progressDialog=new ProgressDialog(DisplayWebViewActivity.this, AlertDialog.THEME_HOLO_DARK);
-            progressDialog.setTitle("Loading");
-            progressDialog.setMessage("Fetching job details");
+            progressDialog.setCancelable(false);
             progressDialog.show();
             progressDialog.setContentView(R.layout.custom_loading_dialog);
-
             //do initialization of required objects objects here
         };
 

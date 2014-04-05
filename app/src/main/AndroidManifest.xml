@@ -3,37 +3,43 @@
     package="com.lostgrad.reader.app" >
 
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
-
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <application
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
-        android:label="Lostgrad"
+        android:label="@string/app_name"
         android:theme="@style/AppTheme" >
+        <!--Splash Screen -->
         <activity
-            android:name=".RssListView"
-            android:label="Lostgrad" >
-
+            android:name="com.lostgrad.reader.app.SplashScreen"
+            android:label="Lostgrad"
+            android:noHistory="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
+        <!--Select Options View-->
+        <activity
+            android:name="com.lostgrad.reader.app.SelectOptionsActivity"
+            android:label="@string/app_name">
+        </activity>
+        <!--Rss List View-->
+        <activity
+            android:name="com.lostgrad.reader.app.RssListView"
+            android:label="Lostgrad Job Results"
+            android:parentActivityName="com.lostgrad.reader.app.SelectOptionsActivity">
+        </activity>
+        <!--Web View-->
         <activity
             android:name="com.lostgrad.reader.app.DisplayWebViewActivity"
             android:label="Lostgrad Job Viewer"
-            android:parentActivityName=".RssListView" >
+            android:parentActivityName="com.lostgrad.reader.app.RssListView" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.lostgrad.reader.app.MainActivity" />
         </activity>
-        <activity
-            android:name="com.lostgrad.reader.app.SplashScreen"
-            android:label="Lostgrad" >
 
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-
-        </activity>
     </application>
 
 </manifest>
