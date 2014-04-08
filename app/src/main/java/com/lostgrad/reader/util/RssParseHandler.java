@@ -78,7 +78,9 @@ public class RssParseHandler extends DefaultHandler {
         if(parsingTitle){
             if(currentItem!=null){
                 rssTitle.append(new String(ch, start, length));
-                currentItem.setTitle(rssTitle.toString());
+                String titl= rssTitle.toString();
+                int maxLength = (titl.length() < 29)?titl.length():29;
+                currentItem.setTitle(titl.substring(0,maxLength)+"...");
                 //currentItem.setTitle(new String(ch,start,length));
             }
         } else if (parsingLink){

@@ -3,54 +3,85 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:orientation="vertical"
-    android:layout_margin="0dp">
+    android:layout_margin="0dp"
+    android:background="#ffe6e6e6"
+    android:weightSum="1">
 
-    <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/imageView"
-        android:src="@drawable/lg_logo_main"
-        android:layout_marginTop="-6dp"/>
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
+        android:layout_height="440dp"
         android:orientation="vertical"
-        android:layout_margin="10dp">
+        android:layout_margin="10dp"
+        android:layout_weight="0.61">
 
-    <TextView
-        android:layout_width="wrap_content"
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="Graduate Job Search"
+            android:id="@+id/textView4"
+            android:layout_weight="0.00"
+            android:textSize="18dp"
+            android:gravity="center"
+            android:layout_marginLeft="-25dp"
+            android:textColor="#999999"
+            android:textStyle="bold"
+            android:fontFamily="@string/hello_world"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"/>
+
+        <TextView
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:text="Select Profession:"
-        android:id="@+id/textView" />
+        android:id="@+id/textView"
+        android:fontFamily="@string/hello_world"
+        android:background="#ff1ab595"
+        android:padding="5dp"
+        android:layout_marginTop="10dp"/>
 
     <Spinner
         android:id="@+id/spinner1"
+        android:fontFamily="@string/hello_world"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:entries="@array/country_arrays"
-        android:prompt="@string/country_prompt" />
+        android:prompt="@string/country_prompt"
+        android:padding="15dp"
+        android:background="#ffffff"
+        android:layout_marginBottom="20dp"/>
 
     <TextView
-        android:layout_width="wrap_content"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:text="Select Job Type:"
-        android:id="@+id/textView2" />
+        android:id="@+id/textView2"
+        android:background="#1AB595"
+        android:fontFamily="@string/hello_world"
+        android:padding="5dp"
+        />
 
-    <Spinner
-        android:id="@+id/spinner2"
+
+        <Spinner
+            android:fontFamily="@string/hello_world"
+            android:id="@+id/spinner2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:entries="@array/job_types"/>
+        android:entries="@array/job_types"
+            android:padding="15dp"
+            android:background="#ffffff"
+            android:layout_marginBottom="20dp"/>
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:text="Search Terms: e.g. London"
-        android:id="@+id/textView3" />
+        android:id="@+id/textView3"
+        />
 
     <EditText
         android:layout_width="match_parent"
@@ -63,12 +94,16 @@
         android:layout_marginTop="5dp"
        />
 
+    </LinearLayout>
+
     <Button
         android:id="@+id/btnSubmit"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Submit" />
-
-    </LinearLayout>
+        android:text="Search"
+        android:background="@color/lg_green"
+        android:fontFamily="@string/hello_world"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"/>
 
 </LinearLayout>

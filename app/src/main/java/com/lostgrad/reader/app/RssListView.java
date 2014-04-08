@@ -7,7 +7,9 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -17,6 +19,8 @@ import com.lostgrad.reader.util.AlternateRowAdapter;
 import com.lostgrad.reader.util.RssReader;
 
 import java.util.List;
+
+import static android.graphics.Color.parseColor;
 
 public class RssListView extends Activity {
 
@@ -32,6 +36,9 @@ public class RssListView extends Activity {
     private RssListView local;
     private static String rssUrl;
     private TextView txtView;
+    private static Integer paged=1;
+    private static String profession="";
+    private String jobType="";
 
 
     @Override
@@ -43,7 +50,7 @@ public class RssListView extends Activity {
         buildRssUrl();
 
         local=this;
-        GetRSSDataTask task = new GetRSSDataTask();
+        GetRSSDataTask task = new GetRSSDataTask(false);
         // Start download RSS task
         task.execute(rssUrl);
 
@@ -51,31 +58,61 @@ public class RssListView extends Activity {
         Log.d("RSS Reader", Thread.currentThread().getName());
     }
 
-    /**
+    @Override
+    public void onBackPressed() {
+        if (this.paged>1){
+            RssListView.this.paged-=1;
+            String page = String.valueOf(RssListView.this.paged);
+            // Starting a new async task
+            new GetRSSDataTask(true).execute(RssListView.this.rssUrl+"&paged="+page);
+        }else{
+            super.onBackPressed();
+        }
+    }
+
+   /**
      * setRSS Search
      * builds the search string which is sent to jSoup
      */
     private void buildRssUrl() {
         Intent intent = getIntent();
-            String profession="";
-            String jobType="";
+            String prof="";
+            String jobtype="";
             String searchQuery="";
 
         if(intent.getExtras()!=null){
             if(intent.getExtras().getString("professionLink")!=null){
                 profession = intent.getExtras().getString("professionLink");
+                prof="profession="+profession+"-jobs&";
+
+                if(intent.getExtras().getString("professionLink").equals("All"))prof="";
+
+
             }
             if(intent.getExtras().getString("jobTypeLink")!=null){
                 jobType= intent.getExtras().getString("jobTypeLink");
                 jobType=jobType.replaceAll(" ", "-").toLowerCase();
+                jobtype="job-type="+jobType+"&";
+
+                if(intent.getExtras().getString("jobTypeLink").equals("All")){
+                    jobtype="";
+                }
+
+
             }
             if(intent.getExtras().getString("searchLink")!=null){
                 searchQuery= intent.getExtras().getString("searchLink");
-                searchQuery=searchQuery.replaceAll(" ", "+").toLowerCase();
+                searchQuery="s="+searchQuery.replaceAll(" ", "+").toLowerCase();
+
+                if(intent.getExtras().getString("searchLink").equals(""))searchQuery="";
+
             }
 
+            this.paged=1;//set page to first
 
-            this.rssUrl ="http://lostgrad.com/graduate-job/feed/?profession="+profession+"-jobs&job-type="+jobType+"&s="+searchQuery;
+
+            this.rssUrl ="http://lostgrad.com/graduate-job/feed/?"+prof+jobtype+searchQuery;
+            Log.d("graylien",this.rssUrl);
         }
     }
 
@@ -84,6 +121,15 @@ public class RssListView extends Activity {
      *
      */
     private class GetRSSDataTask extends AsyncTask<String, Void, List<RssItem> > {
+
+        private boolean loadMoreTask=false;
+
+        public GetRSSDataTask(boolean loadMoreTask){
+
+            if (loadMoreTask==true)
+                this.loadMoreTask=true;
+
+        }
         @Override
         protected List<RssItem> doInBackground(String... urls) {
 
@@ -119,18 +165,40 @@ public class RssListView extends Activity {
 
             setContentView(R.layout.activity_rss_list_view);
 
-            // Get a ListView from main view
-            ListView items = (ListView) findViewById(R.id.listMainView);
-
             // Create a list adapter
-            ArrayAdapter<RssItem> adapter = new AlternateRowAdapter(local,R.layout.list_layout, result);
+            ArrayAdapter<RssItem> adapter = new AlternateRowAdapter(local,R.layout.list_item, result, loadMoreTask);
+
+            // Get a ListView from main view
+            ListView listView = (ListView) findViewById(R.id.rssLV);
+
             // Set list adapter for the ListView
-            items.setAdapter(adapter);
+            listView.setAdapter(adapter);
 
             // Set list view item click listener
-            items.setOnItemClickListener(new ListListener(result, local));
-            progressDialog.dismiss();
+            listView.setOnItemClickListener(new ListListener(result, local));
 
+            //////////////////////////////
+            /**
+             * Add button to List View
+             */
+
+            // LoadMore button
+            Button btnLoadMore = new Button(local);
+            btnLoadMore.setText("Load More");
+            btnLoadMore.setBackgroundColor(parseColor("#ff1ecca9"));
+            listView.setPaddingRelative(0,0,0,10);
+
+            // Adding Load More button to lisview at bottom
+            listView.addFooterView(btnLoadMore);
+            //set listener
+            loadMoreListener(btnLoadMore);
+
+            View header = getLayoutInflater().inflate(R.layout.list_header_pagination, null);
+            listView.addHeaderView(header);
+            TextView headerText = (TextView)header.findViewById(R.id.paginationTextView);
+            headerText.setText("Page "+RssListView.this.paged+" of "+RssListView.this.profession+" Jobs");
+            //////////////////////////////////
+            progressDialog.dismiss();
         }
 
 
@@ -148,7 +216,33 @@ public class RssListView extends Activity {
 
             //do initialization of required objects objects here
             txtView = (TextView) progressDialog.findViewById(R.id.textView2);
-        };
+        }
+
+        /**
+         * load more listener
+         * @param btn
+         */
+
+        private void loadMoreListener(Button btn){
+
+            /**
+             * Listening to Load More button click event
+             * */
+            btn.setOnClickListener(new View.OnClickListener() {
+
+                @Override
+                public void onClick(View arg0) {
+                    RssListView.this.paged+=1;
+                    String page = String.valueOf(RssListView.this.paged);
+                    // Starting a new async task
+
+                    new GetRSSDataTask(true).execute(RssListView.this.rssUrl+"&paged="+page);
+                }
+            });
+
+
+        }
+
     }
 
 }

@@ -1,13 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
-    android:orientation="vertical" >
+
+<LinearLayout
+xmlns:android="http://schemas.android.com/apk/res/android"
+android:layout_width="wrap_content"
+android:layout_height="wrap_content"
+android:orientation="vertical"
+    android:background="#eaeaea"
+    android:paddingRight="0dip">
+
+    <!--<TextView-->
+        <!--android:layout_width="fill_parent"-->
+        <!--android:layout_height="50dp"-->
+        <!--android:textAppearance="?android:attr/textAppearanceLarge"-->
+        <!--android:text="Page Number X of Y"-->
+        <!--android:id="@+id/textView" />-->
 
     <ListView
-        android:id="@+id/listMainView"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content" >
-    </ListView>
-
+    android:id="@+id/rssLV"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+        android:divider="#eaeaea"
+        android:dividerHeight="10dp"
+        android:scrollbarStyle="insideInset"
+        android:layout_marginLeft="10dp">
+</ListView>
 </LinearLayout>

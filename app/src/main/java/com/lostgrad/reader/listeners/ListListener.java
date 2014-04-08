@@ -38,6 +38,7 @@ public class ListListener implements AdapterView.OnItemClickListener {
       //  Intent launchBrowser = new Intent(Intent.ACTION_VIEW);
       //  launchBrowser.setData(Uri.parse(listItems.get(pos).getLink()));
 
+        pos-=1;//have to minus 1 to account for addition of header row
         //launch web view
         Intent launchWebView = new Intent(view.getContext(), DisplayWebViewActivity.class);
         launchWebView.setData(Uri.parse(listItems.get(pos).getLink()));

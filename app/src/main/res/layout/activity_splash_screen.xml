@@ -1,7 +1,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:background="#111">
+    android:background="#ff1ab595">
 
     <ImageView
         android:id="@+id/imageView"
@@ -38,5 +38,18 @@
             android:text="Loading"
             android:textColor="#fff"/>
     </LinearLayout>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="Graduate Job Search"
+        android:textColor="#ffffff"
+        android:fontFamily="@string/hello_world"
+        android:id="@+id/textView2"
+        android:layout_above="@+id/imageView"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="15dp"
+        android:textStyle="bold"/>
 
 </RelativeLayout>
